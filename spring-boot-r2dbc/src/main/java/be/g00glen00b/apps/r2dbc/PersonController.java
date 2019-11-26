@@ -2,18 +2,25 @@ package be.g00glen00b.apps.r2dbc;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/person")
+@RequestMapping("/persons")
 @RequiredArgsConstructor
 public class PersonController {
     private final PersonRepository repository;
 
-    @GetMapping
-    public Flux<Person> findAll() {
-        return repository.findAll();
+    @GetMapping("/{id}")
+    public Mono<Person> findAll(@PathVariable long id) {
+        return repository.findById(id);
+    }
+
+    @PostMapping
+    public Mono<Person> save() {
+        return repository.save(new Person(null, "Yura", "Nosenko"));
     }
 }
