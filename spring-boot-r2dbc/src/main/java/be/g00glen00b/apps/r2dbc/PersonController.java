@@ -16,7 +16,8 @@ public class PersonController {
 
     @GetMapping("/{id}")
     public Mono<Person> findAll(@PathVariable long id) {
-        return repository.findById(id);
+        Mono<Person> byId = repository.findById(id);
+        return byId;
     }
 
     @PostMapping
